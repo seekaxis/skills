@@ -1,45 +1,45 @@
 # skills
 
-Agent Skills
+Lightweight collection of agent skills. Skills live under the `skills/` directory so the `skills` CLI can discover and install them.
 
-This repository provides a "Skill Security Auditor" and is structured to be compatible with the `skills` CLI (npx skills). Placeable skills live under the `skills/` directory so the CLI can discover them.
+Quick start
 
-Included skill
-- `skills/security-auditor` — a scanner that audits agent skills for dangerous patterns (malicious installers, obfuscated payloads, credential exfiltration, supply-chain risks).
-
-Quick usage
-- Run the scanner directly:
+Install the repo's skills (from GitHub):
 
 ```bash
-node scripts/scan.js ./skills/security-auditor
+npx skills add seekaxis/skills
 ```
 
-- Scan all skills under a directory and emit JSON:
-
-```bash
-node scripts/scan.js --all ./skills --json > audit-report.json
-```
-
-Using the `skills` CLI
-- The `skills` CLI discovers skills in `skills/` and other conventional locations. To list installed skills:
-
-```bash
-npx skills list
-```
-
-To add this repo's skills to your agents (interactive):
+Install from a local checkout (dev):
 
 ```bash
 npx skills add .
 ```
 
-Development & tests
-- Tests live under `skills/security-auditor/tests`. Run them with Node.js:
+List installed skills:
+
+```bash
+npx skills list
+```
+
+Included (example)
+
+- `skills/security-auditor` — scanner that audits skills for dangerous patterns.
+
+Example: run the security scanner
+
+```bash
+node skills/security-auditor/scripts/scan.js --json skills/security-auditor
+```
+
+Tests
+
+Run the scanner tests (Node.js >= 18):
 
 ```bash
 node --test skills/security-auditor/tests/scan.test.js
 ```
 
-Notes
-- The primary implementation lives under `skills/security-auditor` (scripts, rules, fixtures). Keep `scripts/rules.json` updated to tune allowlists and rules.
-*** End Patch
+Contributing
+
+Add new skills under `skills/` with a `SKILL.md`. Keep repo README concise — each skill should document its own usage and tests.

@@ -1,5 +1,5 @@
 ---
-name: skill-security-auditor
+name: security-auditor
 description: "Proactively audit agent skills (SKILL.md and bundled scripts) for security risks including malicious installers, obfuscated payloads, credential exfiltration, and supply-chain attacks. Use when installing, reviewing, or triaging any agent skill, or when the user asks to check a skill for safety."
 ---
 
