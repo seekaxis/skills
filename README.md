@@ -1,16 +1,16 @@
 # skills
 
-Lightweight collection of agent skills. Skills live under the `skills/` directory so the `skills` CLI can discover and install them.
+Lightweight collection of agent skills for AI coding assistants.
 
-Quick start
+## Install
 
-Install the repo's skills (from GitHub):
+Install all skills from this repo:
 
 ```bash
 npx skills add seekaxis/skills
 ```
 
-Install from a local checkout (dev):
+Install from a local checkout (for development):
 
 ```bash
 npx skills add .
@@ -22,24 +22,96 @@ List installed skills:
 npx skills list
 ```
 
-Included (example)
+### Manual install
 
-- `skills/security-auditor` — scanner that audits skills for dangerous patterns.
+Alternatively, copy a skill directory into your agent's skills folder:
 
-Example: run the security scanner
+| Agent | Personal skills path | Project skills path |
+|-------|---------------------|---------------------|
+| **Claude Code** | `~/.claude/skills/<skill-name>/` | `.claude/skills/<skill-name>/` |
+| **Cursor** | `~/.cursor/skills/<skill-name>/` | `.cursor/skills/<skill-name>/` |
+| **Codex** | `~/.codex/skills/<skill-name>/` | `.codex/skills/<skill-name>/` |
+
+Example — install `claude-code-cli` for Claude Code (personal, all projects):
 
 ```bash
-node skills/security-auditor/scripts/scan.js --json skills/security-auditor
+cp -r skills/claude-code-cli ~/.claude/skills/claude-code-cli
 ```
 
-Tests
+Or for a single project:
 
-Run the scanner tests (Node.js >= 18):
+```bash
+cp -r skills/claude-code-cli .claude/skills/claude-code-cli
+```
+
+## Included Skills
+
+### `security-auditor`
+
+Scans agent skill directories for dangerous patterns — malicious installers, obfuscated payloads, credential exfiltration, and supply-chain attacks.
+
+```bash
+# Scan a single skill
+node skills/security-auditor/scripts/scan.js skills/security-auditor
+
+# Scan with JSON output
+node skills/security-auditor/scripts/scan.js --json skills/security-auditor
+
+# Scan all skills in a directory
+node skills/security-auditor/scripts/scan.js --all ./skills
+```
+
+Run tests (Node.js >= 18):
 
 ```bash
 node --test skills/security-auditor/tests/scan.test.js
 ```
 
-Contributing
+### `claude-code-cli`
 
-Add new skills under `skills/` with a `SKILL.md`. Keep repo README concise — each skill should document its own usage and tests.
+Teaches AI agents how to use Claude Code programmatically — from shell scripts, CI/CD pipelines, Python, or TypeScript.
+
+**What it covers:**
+
+- **CLI print mode** (`claude -p`) — run tasks non-interactively with structured JSON or streaming output
+- **Agent SDK** — Python and TypeScript packages for full programmatic control
+- **Session management** — continue and resume conversations across invocations
+- **Subagents** — define and orchestrate specialized agents inline or via files
+- **Agent teams** — coordinate multiple Claude Code instances working in parallel
+- **CI/CD patterns** — ready-to-use recipes for GitHub Actions, GitLab CI/CD, and shell scripts
+
+**Skill files:**
+
+| File | Contents |
+|------|----------|
+| `SKILL.md` | Quick start, core concepts, and navigation |
+| `cli-reference.md` | Complete CLI flags, output formats, permission syntax |
+| `agent-sdk.md` | Python and TypeScript SDK with examples |
+| `patterns.md` | CI/CD recipes, scripting patterns, cost control tips |
+
+**Quick example** — run a one-shot task from any script:
+
+```bash
+claude -p "Find and fix the bug in auth.py" --allowedTools "Read,Edit,Bash"
+```
+
+**Quick example** — Python SDK:
+
+```python
+import asyncio
+from claude_agent_sdk import query, ClaudeAgentOptions
+
+async def main():
+    async for message in query(
+        prompt="Find and fix the bug in auth.py",
+        options=ClaudeAgentOptions(allowed_tools=["Read", "Edit", "Bash"])
+    ):
+        if hasattr(message, "result"):
+            print(message.result)
+
+asyncio.run(main())
+```
+
+## Contributing
+
+Add new skills under `skills/` with a `SKILL.md`. Each skill should document its own usage within its `SKILL.md`. Keep this README concise — link to the skill's own docs for details.
