@@ -44,11 +44,22 @@ Or for a single project:
 cp -r skills/claude-code-cli .claude/skills/claude-code-cli
 ```
 
-## Included Skills
+## Available Skills
+
+| Skill | Description | Install |
+|-------|-------------|---------|
+| **security-auditor** | Audit agent skills for dangerous patterns, obfuscated payloads, and supply-chain attacks | `npx skills add https://github.com/seekaxis/skills --skill security-auditor` |
+| **claude-code-cli** | Use Claude Code programmatically from scripts, CI/CD, Python, or TypeScript | `npx skills add https://github.com/seekaxis/skills --skill claude-code-cli` |
+
+---
 
 ### `security-auditor`
 
 Scans agent skill directories for dangerous patterns — malicious installers, obfuscated payloads, credential exfiltration, and supply-chain attacks.
+
+```bash
+npx skills add https://github.com/seekaxis/skills --skill security-auditor
+```
 
 ```bash
 # Scan a single skill
@@ -67,9 +78,15 @@ Run tests (Node.js >= 18):
 node --test skills/security-auditor/tests/scan.test.js
 ```
 
+---
+
 ### `claude-code-cli`
 
 Teaches AI agents how to use Claude Code programmatically — from shell scripts, CI/CD pipelines, Python, or TypeScript.
+
+```bash
+npx skills add https://github.com/seekaxis/skills --skill claude-code-cli
+```
 
 **What it covers:**
 
